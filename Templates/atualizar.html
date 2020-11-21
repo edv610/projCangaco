@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Página de Cadastro</title>
+    </head>
+    <body align="center">
+        <h1>Atualizar Cliente</h1>
+        <hr>
+        <!-- URL_FOR ROTA PARA O METODO CADASTRO-->
+        <form method="POST" align="center">
+
+            <table align="center">
+                <tr>
+                    <td>Nome</td>
+                    <td><input type="text" name="nome" value="{{ pessoa.nome }}"></td>
+                </tr>
+                <tr>
+                    <td>Telefone</td>
+                    <td><input type="text" name="telefone" value="{{ pessoa.telefone }}"></td>
+                </tr>
+                <tr>
+                    <td>Cpf</td>
+                    <td><input type="text" name="cpf" value="{{ pessoa.cpf }}"></td>
+                </tr>
+                <tr>
+                    <td>E-mail</td>
+                    <td><input type="text" name="email" value="{{ pessoa.email }}"></td>
+                </tr>
+                
+            </table><br>
+            <input type="submit" value="Atualizar"></input>
+            
+        </form>
+    </body>
+</html>
