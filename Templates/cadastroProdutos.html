@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Página de Cadastro de Produtos</title>
+    </head>
+    <body align="center">
+        <h1>Cadastrar Produtos</h1>
+        <hr>
+        <!-- URL_FOR ROTA PARA O METODO CADASTRO-->
+        <form action="/produto/cadastro" method="POST" align="center">
+
+            <table align="center">
+                <tr>
+                    <td>Nome</td>
+                    <td><input type="text" name="nomeProduto"></td>
+                </tr>
+                <tr>
+                    <td>Valor</td>
+                    <td><input type="number" name="valorProduto"></td>
+                </tr>
+                <tr>
+                    <td>Quantidade em estoque</td>
+                    <td><input type="number" name="qntEstoque"></td>
+                </tr>
+                
+            </table><br>
+            <input type="submit" value="Cadastrar"></input>
+            
+        </form>
+    </body>
+</html>

@@ -9,25 +9,23 @@
         <hr>
         <table border="4" align="center">
             <tr>
-                <td>ID</td>
+                <td>Codigo Produto</td>
                 <td>Nome</td>
-                <td>Telefone</td>
-                <td>CPF</td>
-                <td>E-mail</td>
+                <td>Valor</td>
+                <td>Quantidade em estoque</td>
                 <td>Excluir</td>
                 <td>Atualizar</td>
             </tr>
 
             <!--FOR DE PESSOA EM PESSOAS-->
-            {% for pessoa in  pessoas %}
+            {% for produto in produtos %}
             <tr>
-                <td>{{ pessoa._id }}</td>
-                <td>{{ pessoa.nome }}</td>
-                <td>{{ pessoa.telefone }}</td>
-                <td>{{ pessoa.cpf }}</td>
-                <td>{{ pessoa.email }}</td>
-                <td><a href="/excluir/{{ pessoa._id }}">X</a></td>
-                <td><a href="/atualizar/{{ pessoa._id }}">Atualizar</a></td>
+                <td>{{ produto._codProduto }}</td>
+                <td>{{ produto.nomeProduto }}</td>
+                <td>{{ produto.valorProduto }}</td>
+                <td>{{ produto.qntEstoque }}</td>
+                <td><a href="/produtos/excluir/{{ produto._codProduto }}">X</a></td>
+                <td><a href="/produtos/atualizar/{{ produto._codProduto }}">Atualizar</a></td>
             </tr>
             {% endfor %}
         </table>

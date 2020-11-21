@@ -5,12 +5,19 @@
         <title>Página Inicial</title>
     </head>
     <body align="center">   
-        <h1>Cadastro de Clientes</h1>
+        <h1>Cadastro de Produtos</h1>
         <hr>
         <!-- URL_FOR é para uma rota -->
         <ul>
-            <li><a href="{{ url_for('cadastrar') }}">Cadastrar Clientes</a></li>
-            <li><a href="{{ url_for('lista') }}">Listar Clientes</a></li>
+            <li><a href="{{ url_for('cadastrarProdutos') }}">Cadastrar Produto</a></li>
+            <li><a href="{{ url_for('listarProdutos') }}">Listar Produtos</a></li>
+        </ul>
+        <h1>Cadastro de Fornecedores</h1>
+        <hr>
+        <!-- URL_FOR é para uma rota -->
+        <ul>
+            <li><a href="{{ url_for('cadastrarProdutos') }}">Cadastrar Fornecedores</a></li>
+            <li><a href="{{ url_for('listarProdutos') }}">Listar Fornecedores</a></li>
         </ul>
     </body>
 </html>
