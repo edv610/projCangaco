@@ -12,7 +12,7 @@ class Usuario(db.Model):
     id_Usuario = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String)
     senha = db.Column(db.String)
-    adm = db.Column(db.String)
+    adm = db.Column(db.Boolean)
 
     #CONSTRUTOR
     def __init__(self,email,senha,adm):
@@ -44,9 +44,9 @@ def cadastroUsuario():
     if request.method == 'POST':
         email = request.form.get('email')
         senha = request.form.get('senha')
-        adm = 'Off' if request.form.get('adm') is None else 'On'
+        adm = False if request.form.get('adm') is None else True
 
-        if email and senha and adm:
+        if email and senha and adm is not None:
             u = Usuario(email, senha, adm)
             db.session.add(u)
             db.session.commit()
@@ -78,10 +78,10 @@ def atualizarUsuario(id):
     if request.method == 'POST':
         email = request.form.get('email')
         senha = request.form.get('senha')
-        adm = 'Off' if request.form.get('adm') is None else 'On'
+        adm = False if request.form.get('adm') is None else True
 
 
-        if email and senha and adm:
+        if email and senha and adm is not None:
             usuario.email = email
             usuario.senha = senha
             usuario.adm = adm
@@ -174,6 +174,91 @@ def atualizarProdutos(codProduto):
 
     return render_template('atualizarProdutos.html',produto=produto)
 
+#------------------------------------------------------------------- CLASSE FORNECEDOR -----------------------------------------------------
+class Fornecedor(db.Model):
+    #CRIAÇÃO DA TABELA DO BANCO
+    __tablename='fornecedor'
+    _codFornecedor = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nomeFornecedor = db.Column(db.String)
+    telefoneFornecedor = db.Column(db.String)
+    cpf_cnpjFornecedor = db.Column(db.String)
+    tipoFornecedor = db.Column(db.String)
+
+    #CONSTRUTOR
+    def _init_(self,nome,telefone,cpf,email):
+        self.nomeFornecedor = nomeFornecedor
+        self.telefone = telefone
+        self.cpf_cnpjFornecedor = cpf_cnpjFornecedor
+        self.tipoFornecedor = tipoFornecedor
+
+db.create_all()
+
+#ROTA DA PAGINA USUÁRIO
+@app.route('/fornecedorPage')
+def fornecedorPage():
+    return render_template('fornecedor.html')
+
+#ROTA DA  PAGINA DO CADASTRO
+@app.route('/fornecedor/cadastrar')
+def cadastrarFornecedores():
+    return render_template('cadastroFornecedores.html')
+
+#ROTA DO METODO DE CADASTRAR
+@app.route('/fornecedor/cadastro', methods=['GET', 'POST'])
+#METODO DE CADASTRAR
+def cadastroFornecedores():
+    if request.method == 'POST':
+        nomeFornecedor = request.form['nomeFornecedor']
+        telefoneFornecedor = request.form['telefoneFornecedor']
+        cpf_cnpjFornecedor = request.form['cpf_cnpjFornecedor']
+        tipoFornecedor = request.form['tipoFornecedor']
+
+        if nomeFornecedor and telefoneFornecedor and cpf_cnpjFornecedor and tipoFornecedor:
+            f = Fornecedor(nomeFornecedor = nomeFornecedor, telefoneFornecedor = telefoneFornecedor, cpf_cnpjFornecedor = cpf_cnpjFornecedor, tipoFornecedor=tipoFornecedor)
+            db.session.add(f)
+            db.session.commit()
+
+        return redirect(url_for('fornecedorPage'))
+
+#ROTA DA PAGINA DE LISTA
+@app.route('/fornecedores')
+#METODO DE LISTAR
+def listarFornecedores():
+    fornecedores = Fornecedor.query.all()
+    return render_template('listaFornecedores.html', fornecedores=fornecedores)
+
+#excluir pelo ID
+@app.route('/fornecedores/excluir/<int:codFornecedor>')
+def excluirFornecedores(codFornecedor):
+    fornecedor = Fornecedor.query.filter_by(_codFornecedor=codFornecedor).first()
+    db.session.delete(fornecedor)
+    db.session.commit()
+    #apos excluir vai voltar para pagina de listar
+    fornecedores = Fornecedor.query.all()
+    return render_template('listaFornecedores.html', fornecedores=fornecedores)
+
+#ATUALIZAR pelo ID recebendo um get do parametro e retornando um post
+@app.route('/fornecedores/atualizar/<int:codFornecedor>', methods=['GET', 'POST'])
+def atualizarFornecedores(codFornecedor):
+    fornecedor = Fornecedor.query.filter_by(_codFornecedor=codFornecedor).first()
+    
+    if request.method == 'POST':
+        nomeF = request.form['nomeFornecedor']
+        telefoneF = request.form['telefoneFornecedor']
+        cpf_cnpjF = request.form['cpf_cnpjFornecedor']
+        tipoF = request.form['tipoFornecedor']
+
+        if nomeF and telefoneF and cpf_cnpjF:
+            fornecedor.nomeFornecedor = nomeF
+            fornecedor.telefoneFornecedor = telefoneF
+            fornecedor.cpf_cnpjFornecedor = cpf_cnpjF
+            fornecedor.tipoFornecedor = tipoF
+
+            db.session.commit()
+
+            return redirect(url_for('listarFornecedores'))
+
+    return render_template('atualizarFornecedores.html',fornecedor=fornecedor)
 
 
 
