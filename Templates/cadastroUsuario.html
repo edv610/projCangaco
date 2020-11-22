@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <title>Página de Cadastro</title>
     </head>
-    <body align="center">
-        <h1>Cadastrar Usuário</h1>
+    <body>
+        <h1 align="center">Cadastrar Usuário</h1>
         <hr>
         <!-- URL_FOR ROTA PARA O METODO CADASTRO-->
-        <form action="{{ url_for('cadastrarUsuario') }}" method="POST">
+        <form action="{{ url_for('cadastrarUsuario') }}" method="POST" align="center">
 
             <table align="center">
                 <tr>
@@ -28,5 +28,6 @@
             <input type="submit" value="Cadastrar"></input>
             
         </form>
+        <br><a href="{{ url_for('usuario') }}">Voltar</a>  
     </body>
 </html>

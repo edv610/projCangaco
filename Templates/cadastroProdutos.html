@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <title>Página de Cadastro de Produtos</title>
     </head>
-    <body align="center">
-        <h1>Cadastrar Produtos</h1>
+    <body>
+        <h1 align="center">Cadastrar Produtos</h1>
         <hr>
         <!-- URL_FOR ROTA PARA O METODO CADASTRO-->
         <form action="/produto/cadastro" method="POST" align="center">
@@ -27,6 +27,8 @@
             </table><br>
             <input type="submit" value="Cadastrar"></input>
             
+            
         </form>
+        <br><a href="{{ url_for('produtoPage') }}">Voltar</a>
     </body>
 </html>
