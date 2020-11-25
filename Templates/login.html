@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Página Inicial</title>
+        <link rel = "stylesheet" href="static\hf.css"/>
+    </head>
+    <body align="center">   
+        <h1>Login</h1>
+                <form method="POST" action="{{ url_for('login') }}" align="center">
+
+                    <table align="center">
+                        <tr>
+                            <td>E-mail</td>
+                            <td><input type="text" name="email"></td>
+                        </tr>
+                        <tr>
+                            <td>Senha</td>
+                            <td><input name ="senha" type="password"></td>
+                        </tr>
+                    </table><br>
+                    <input type="submit" value="Logar"></input>
+                    </form>
+    </body>
+</html>

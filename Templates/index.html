@@ -6,14 +6,15 @@
         <link rel = "stylesheet" href="static\hf.css"/>
     </head>
     <body align="center">   
-        <h1>Menu</h1>
+        <h1>Olá {{g.user.email}}</h1>
         <br>
         <!-- URL_FOR é para uma rota -->
         <nav>
             <ul align="center">
-                <li><a href="{{ url_for('usuario') }}">Usuários</a></li>
+                <li id="cadastrarUsuario" ><a href="{{ url_for('usuario') }}">Usuários</a></li>
                 <li><a href="{{ url_for('produtoPage') }}">Produtos</a></li>
-                <li><a href="{{ url_for('fornecedorPage') }}">Fornecedores</a></li>             
+                <li><a href="{{ url_for('fornecedorPage') }}">Fornecedores</a></li>     
+                <li><a href="{{ url_for('vendaPage') }}">Vendas</a></li>          
             </ul>
         </nav>
     </body>
