@@ -9,7 +9,7 @@
         <h1 align="center">Nova Venda</h1>
         <br>
         <!-- URL_FOR ROTA PARA O METODO CADASTRO-->
-        <form action="/venda/cadastro" method="POST" align="center">
+        <form action="{{url_for('cadastrarVendas')}}" method="POST" align="center">
 
             <table align="center">
 
@@ -24,11 +24,6 @@
                 <tr>
                     <td>Valor Total</td>
                     <td><input type="number" step="0.01" name="valor_total"></td>
-                </tr>
-
-                <tr>
-                    <td>Id do Vendedor</td>
-                    <td><input type="text" name="id_Usuario"></td>
                 </tr>
 
                 

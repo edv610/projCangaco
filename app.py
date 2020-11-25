@@ -7,8 +7,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 db = SQLAlchemy(app)
 
-
 # ----------------------------------------------------------------CLASSE USUÁIO--------------------------------------------------------------------
+
+
 class Usuario(db.Model):
     # CRIAÇÃO DA TABELA DO BANCO
     __tablename = 'usuario'
@@ -16,6 +17,7 @@ class Usuario(db.Model):
     email = db.Column(db.String)
     senha = db.Column(db.String)
     adm = db.Column(db.Boolean)
+    venda_usuario = db.relationship('Venda', backref='addVenda', lazy='select')
 
     # CONSTRUTOR
     def __init__(self, email, senha, adm):
@@ -337,6 +339,7 @@ class Venda(db.Model):
     _codVenda = db.Column(db.Integer, primary_key=True, autoincrement=True)
     qtd_produto = db.Column(db.Integer)
     valor_total = db.Column(db.Float)
+    id_vendedor = db.Column(db.Integer, db.ForeignKey('usuario.id_Usuario'))
 
     # id do usuario
 
@@ -375,6 +378,7 @@ def cadastroVendas():
         if valor_total and qtd_produto:  # and id do usuario
             v = Venda(valor_total=valor_total, qtd_produto=qtd_produto)
             db.session.add(v)
+            g.user.venda_usuario.append(v)
             db.session.commit()
 
         return redirect(url_for('vendaPage'))
@@ -425,11 +429,12 @@ def atualizarVendas(codVenda):
 
 
 # inicia o aplicativo
-
+chave = Usuario.query.filter_by(id_Usuario=1).first()
+if chave is None:
+    users = Usuario('admin', 'admin', True)
+    db.session.add(users)
+    db.session.commit()
 db.create_all()
-user = Usuario('admin', 'admin', True)
-db.session.add(user)
-db.session.commit()
 if __name__ == '__main__':
     app.secret_key = 'adsoadsojidasjiodasoiasf809qw123123'
     app.run(debug=True)
