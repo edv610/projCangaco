@@ -407,34 +407,35 @@ def excluirVendas(codVenda):
 # ATUALIZAR pelo ID recebendo um get do parametro e retornando um post
 
 
-@app.route('/vendas/atualizar/<int:codVenda>', methods=['GET', 'POST'])
-def atualizarVendas(codVenda):
-    venda = Venda.query.filter_by(_codVenda=codVenda).first()
+# @app.route('/vendas/atualizar/<int:codVenda>', methods=['GET', 'POST'])
+# def atualizarVendas(codVenda):
+#     venda = Venda.query.filter_by(_codVenda=codVenda).first()
+ 
+#     if request.method == 'POST':
+#         valor_totalV = request.form['valor_total']
+#         qtd_produtoV = request.form['qtd_produto']
+#         # id do usuario
+# 
+#        if valor_totalV and qtd_produtoV:  # and id do usuario
+#            venda.valor_total = valor_totalV
+#            venda.qtd_produto = qtd_produtoV
+#            # and id do usuario
 
-    if request.method == 'POST':
-        valor_totalV = request.form['valor_total']
-        qtd_produtoV = request.form['qtd_produto']
-        # id do usuario
+#            db.session.commit()
 
-        if valor_totalV and qtd_produtoV:  # and id do usuario
-            venda.valor_total = valor_totalV
-            venda.qtd_produto = qtd_produtoV
-            # and id do usuario
+#           return redirect(url_for('listarVendas'))
 
-            db.session.commit()
-
-            return redirect(url_for('listarVendas'))
-
-    return render_template('vendaView/atualizarVendas.html', venda=venda)
+#    return render_template('vendaView/atualizarVendas.html', venda=venda)
 
 
 # inicia o aplicativo
+db.create_all()
 chave = Usuario.query.filter_by(id_Usuario=1).first()
 if chave is None:
     users = Usuario('admin', 'admin', True)
     db.session.add(users)
     db.session.commit()
-db.create_all()
+
 if __name__ == '__main__':
     app.secret_key = 'adsoadsojidasjiodasoiasf809qw123123'
     app.run(debug=True)
