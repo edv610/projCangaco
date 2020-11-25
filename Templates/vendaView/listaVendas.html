@@ -16,7 +16,7 @@
                 <td align="center">Quantidade de Produtos</td>
                 <td align="center">ID do Vendedor</td>
                 <td align="center">Excluir</td>
-                <td align="center">Atualizar</td>
+                <!-- <td align="center">Atualizar</td> -->
             </tr>
 
             <!--FOR DE PESSOA EM PESSOAS-->
@@ -28,7 +28,7 @@
                 <td align="center">{{ venda.qtd_produto }}</td>
                 <td align="center">{{ venda.id_vendedor }}</td>
                 <td align="center"><a href="/vendas/excluir/{{ venda._codVenda }}">X</a></td>
-                <td align="center"><a href="/vendas/atualizar/{{ venda._codVenda }}">Atualizar</a></td>
+                <!--<td align="center"><a href="/vendas/atualizar/{{ venda._codVenda }}">Atualizar</a></td> -->
             </tr>
             {% endfor %}
         </table>
