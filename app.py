@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 
+
 #CONFIGURANDO FLASK E O BANCO
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 db = SQLAlchemy(app)
+
+
 #----------------------------------------------------------------CLASSE USUÁIO--------------------------------------------------------------------
 class Usuario(db.Model):
     #CRIAÇÃO DA TABELA DO BANCO
@@ -30,12 +33,12 @@ def index():
 #ROTA DA PAGINA USUÁRIO
 @app.route('/usuario')
 def usuario():
-    return render_template('usuario.html')
+    return render_template('usuarioView/usuario.html')
 
 #ROTA DA  PAGINA DO CADASTRO
 @app.route('/cadastrarUsuario')
 def cadastrarUsuario():
-    return render_template('cadastroUsuario.html')
+    return render_template('usuarioView/cadastroUsuario.html')
 
 #ROTA DO METODO DE CADASTRAR
 @app.route('/cadastrarUsuario', methods=['GET', 'POST'])
@@ -58,7 +61,7 @@ def cadastroUsuario():
 #METODO DE LISTAR
 def listaUsuario():
     usuarios = Usuario.query.all()
-    return render_template('listaUsuario.html', usuarios=usuarios)
+    return render_template('usuarioView/listaUsuario.html', usuarios=usuarios)
 
 #excluir pelo ID
 @app.route('/excluirUsuario/<int:id>')
@@ -68,7 +71,7 @@ def excluirUsuario(id):
     db.session.commit()
     #apos excluir vai voltar para pagina de listar
     usuarios = usuario.query.all()
-    return render_template('listaUsuario.html', usuarios=usuarios)
+    return render_template('usuarioView/listaUsuario.html', usuarios=usuarios)
 
 #ATUALIZAR pelo ID recebendo um get do parametro e retornando um post
 @app.route('/atualizarUsuario/<int:id>', methods=['GET', 'POST'])
@@ -90,7 +93,7 @@ def atualizarUsuario(id):
 
             return redirect(url_for('listaUsuario'))
 
-    return render_template('atualizarUsuario.html',usuario=usuario)
+    return render_template('usuarioView/atualizarUsuario.html',usuario=usuario)
 
 #----------------------------------------------------------------CLASSE PRODUTO--------------------------------------------------------------------
 
@@ -113,12 +116,12 @@ db.create_all()
 #ROTA DA PAGINA USUÁRIO
 @app.route('/produtoPage')
 def produtoPage():
-    return render_template('produto.html')
+    return render_template('produtoView/produto.html')
 
 #ROTA DA  PAGINA DO CADASTRO
 @app.route('/produto/cadastrar')
 def cadastrarProdutos():
-    return render_template('cadastroProdutos.html')
+    return render_template('produtoView/cadastroProdutos.html')
 
 #ROTA DO METODO DE CADASTRAR
 @app.route('/produto/cadastro', methods=['GET', 'POST'])
@@ -141,7 +144,7 @@ def cadastroProdutos():
 #METODO DE LISTAR
 def listarProdutos():
     produtos = Produto.query.all()
-    return render_template('listaProdutos.html', produtos=produtos)
+    return render_template('produtoView/listaProdutos.html', produtos=produtos)
 
 #excluir pelo ID
 @app.route('/produtos/excluir/<int:codProduto>')
@@ -151,7 +154,7 @@ def excluirProdutos(codProduto):
     db.session.commit()
     #apos excluir vai voltar para pagina de listar
     produtos = Produto.query.all()
-    return render_template('listaProdutos.html', produtos=produtos)
+    return render_template('produtoView/listaProdutos.html', produtos=produtos)
 
 #ATUALIZAR pelo ID recebendo um get do parametro e retornando um post
 @app.route('/produtos/atualizar/<int:codProduto>', methods=['GET', 'POST'])
@@ -172,7 +175,7 @@ def atualizarProdutos(codProduto):
 
             return redirect(url_for('listarProdutos'))
 
-    return render_template('atualizarProdutos.html',produto=produto)
+    return render_template('produtoView/atualizarProdutos.html',produto=produto)
 
 #------------------------------------------------------------------- CLASSE FORNECEDOR -----------------------------------------------------
 class Fornecedor(db.Model):
@@ -196,12 +199,12 @@ db.create_all()
 #ROTA DA PAGINA USUÁRIO
 @app.route('/fornecedorPage')
 def fornecedorPage():
-    return render_template('fornecedor.html')
+    return render_template('fornecedorView/fornecedor.html')
 
 #ROTA DA  PAGINA DO CADASTRO
 @app.route('/fornecedor/cadastrar')
 def cadastrarFornecedores():
-    return render_template('cadastroFornecedores.html')
+    return render_template('fornecedorView/cadastroFornecedores.html')
 
 #ROTA DO METODO DE CADASTRAR
 @app.route('/fornecedor/cadastro', methods=['GET', 'POST'])
@@ -225,7 +228,7 @@ def cadastroFornecedores():
 #METODO DE LISTAR
 def listarFornecedores():
     fornecedores = Fornecedor.query.all()
-    return render_template('listaFornecedores.html', fornecedores=fornecedores)
+    return render_template('fornecedorView/listaFornecedores.html', fornecedores=fornecedores)
 
 #excluir pelo ID
 @app.route('/fornecedores/excluir/<int:codFornecedor>')
@@ -235,7 +238,7 @@ def excluirFornecedores(codFornecedor):
     db.session.commit()
     #apos excluir vai voltar para pagina de listar
     fornecedores = Fornecedor.query.all()
-    return render_template('listaFornecedores.html', fornecedores=fornecedores)
+    return render_template('fornecedorView/listaFornecedores.html', fornecedores=fornecedores)
 
 #ATUALIZAR pelo ID recebendo um get do parametro e retornando um post
 @app.route('/fornecedores/atualizar/<int:codFornecedor>', methods=['GET', 'POST'])
@@ -258,10 +261,90 @@ def atualizarFornecedores(codFornecedor):
 
             return redirect(url_for('listarFornecedores'))
 
-    return render_template('atualizarFornecedores.html',fornecedor=fornecedor)
+    return render_template('fornecedorView/atualizarFornecedores.html',fornecedor=fornecedor)
 
 
+#----------------------------------------------------------------CLASSE VENDAS--------------------------------------------------------------------
+class Venda(db.Model):
+    #CRIAÇÃO DA TABELA DO BANCO
+    __tablename='venda'
+    _codVenda = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    qtd_produto = db.Column(db.Integer)
+    valor_total = db.Column(db.Float)
 
+    #id do usuario
+
+    #CONSTRUTOR
+    def __init__(self,qtd_produto,valor_total):  #id do usuario
+        self.qtd_produto = qtd_produto
+        self.valor_total = valor_total
+         #id do usuario
+
+db.create_all()
+
+#ROTA DA PAGINA VENDAS
+@app.route('/vendaPage')
+def vendaPage():
+    return render_template('vendaView/venda.html')
+
+#ROTA DA  PAGINA DO CADASTRO
+@app.route('/venda/cadastrar')
+def cadastrarVendas():
+    return render_template('vendaView/cadastroVendas.html')
+
+#ROTA DO METODO DE CADASTRAR
+@app.route('/venda/cadastro', methods=['GET', 'POST'])
+#METODO DE CADASTRAR
+def cadastroVendas():
+    if request.method == 'POST':
+        #id do usuario
+        valor_total = request.form['valor_total']
+        qtd_produto = request.form['qtd_produto']
+
+        if valor_total and qtd_produto: #and id do usuario
+            v = Venda(valor_total = valor_total, qtd_produto = qtd_produto)
+            db.session.add(v)
+            db.session.commit()
+
+        return redirect(url_for('vendaPage'))
+
+#ROTA DA PAGINA DE LISTA
+@app.route('/vendas')
+#METODO DE LISTAR
+def listarVendas():
+    vendas = Venda.query.all()
+    return render_template('vendaView/listaVendas.html', vendas=vendas)
+
+#excluir pelo ID
+@app.route('/vendas/excluir/<int:codVenda>')
+def excluirVendas(codVenda):
+    venda = Venda.query.filter_by(_codVenda=codVenda).first()
+    db.session.delete(venda)
+    db.session.commit()
+    #apos excluir vai voltar para pagina de listar
+    vendas = Venda.query.all()
+    return render_template('vendaView/listaVendas.html', vendas=vendas)
+
+#ATUALIZAR pelo ID recebendo um get do parametro e retornando um post
+@app.route('/vendas/atualizar/<int:codVenda>', methods=['GET', 'POST'])
+def atualizarVendas(codVenda):
+    venda = Venda.query.filter_by(_codVenda=codVenda).first()
+    
+    if request.method == 'POST':
+        valor_totalV = request.form['valor_total']
+        qtd_produtoV = request.form['qtd_produto']
+        #id do usuario
+
+        if valor_totalV and qtd_produtoV:#and id do usuario
+            venda.valor_total = valor_totalV
+            venda.qtd_produto = qtd_produtoV
+            #and id do usuario
+
+            db.session.commit()
+
+            return redirect(url_for('listarVendas'))
+
+    return render_template('vendaView/atualizarVendas.html',venda=venda)
 
 
 

@@ -22,12 +22,12 @@
             <!--FOR DE PESSOA EM PESSOAS-->
             {% for fornecedor in fornecedores %}
             <tr>
-                <td>{{ fornecedor._codFornecedor }}</td>
+                <td align="center">{{ fornecedor._codFornecedor }}</td>
                 <td>{{ fornecedor.nomeFornecedor }}</td>
                 <td>{{ fornecedor.telefoneFornecedor }}</td>
                 <td>{{ fornecedor.cpf_cnpjFornecedor }}</td>
                 <td>{{ fornecedor.tipoFornecedor }}</td>
-                <td><a href="/fornecedores/excluir/{{ fornecedor._codFornecedor }}">X</a></td>
+                <td align="center"><a href="/fornecedores/excluir/{{ fornecedor._codFornecedor }}">X</a></td>
                 <td><a href="/fornecedores/atualizar/{{ fornecedor._codFornecedor }}">Atualizar</a></td>
             </tr>
             {% endfor %}
