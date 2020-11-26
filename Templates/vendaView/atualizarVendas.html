@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Página de Atualizar</title>
-        <link rel = "stylesheet" href="static\hf.css"/>
-    </head>
-    <body>
+{% extends 'base.html' %}
+{% block body %}
         <h1 align="center">Atualizar Vendas</h1>
         <br>
         <!-- URL_FOR ROTA PARA O METODO CADASTRO-->
@@ -27,5 +21,4 @@
             
         </form>
         <br><a href="{{ url_for('vendaPage') }}">Voltar</a>
-    </body>
-</html>
+{% endblock %}

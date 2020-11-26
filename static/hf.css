@@ -8,6 +8,12 @@ body {
   margin-right:     10%;
   border:           1px dotted gray;
   padding:          10px 10px 10px 10px;
+  background: no-repeat center top fixed;
+
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 /*------------------------------------------------------------------------------------------------*/
 ul {

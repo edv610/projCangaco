@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Lista</title>
-        <link rel = "stylesheet" href="static\hf.css"/>
-    </head>
-    <body>
+{% extends 'base.html' %}
+{% block body %}  
         <h1 align="center">Lista de Produtos</h1>
         <br>
         <table border="4" align="center">
@@ -31,6 +25,5 @@
             {% endfor %}
         </table>
         <br><a href="{{ url_for('produtoPage') }}">Voltar</a>
-</body>
-</html>
+{% endblock %} 
 

@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Produtos</title>
-        <link rel = "stylesheet" href="static\hf.css"/>
-    </head>
-    <body>   
+{% extends 'base.html' %}
+{% block body %}    
         <h1 align="center">Menu de Produtos</h1>
         <br>
         <!-- URL_FOR é para uma rota -->
@@ -16,5 +10,4 @@
             </ul>
         </nav>
         <br><a href="{{ url_for('index') }}">Voltar</a>
-    </body>
-</html>
+{% endblock %} 
