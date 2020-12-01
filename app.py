@@ -41,9 +41,9 @@ def auth():
         g.user = user
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST', 'OPTIONS'])
 def login():
-    if request.method == 'POST':
+    if request.method == 'POST' or 'OPTIONS':
         session.pop('usuario_id', None)
         email = request.form['email']
         senha = request.form['senha']
@@ -133,6 +133,15 @@ def atualizarUsuario(id):
 
     return render_template('usuarioView/atualizarUsuario.html', usuario=usuario)
 
+
+    # ----------------------------------------------------------------TABELA DE RELACIONAMENTO fornecedor_produto--------------------------------------------------------------------
+fornecedor_produto = db.Table('fornecedor_produto',
+                              db.Column('codProduto', db.Integer, db.ForeignKey(
+                                  'produto._codProduto'), primary_key=True),
+                              db.Column('codFornecedor', db.Integer, db.ForeignKey(
+                                  'fornecedor._codFornecedor'), primary_key=True)
+                              )
+
 # ----------------------------------------------------------------CLASSE PRODUTO--------------------------------------------------------------------
 
 
@@ -143,6 +152,8 @@ class Produto(db.Model):
     nomeProduto = db.Column(db.String)
     valorProduto = db.Column(db.Float)
     qntEstoque = db.Column(db.Integer)
+    fornecido = db.relationship('Fornecedor', secondary=fornecedor_produto, lazy='subquery',
+                                backref=db.backref('fornec', lazy=True))
 
     # CONSTRUTOR
     def _init_(self, nomeProduto, valorProduto, qntEstoque):
@@ -175,13 +186,19 @@ def cadastroProdutos():
         nomeProduto = request.form['nomeProduto']
         valorProduto = request.form['valorProduto']
         qntEstoque = request.form['qntEstoque']
+        listaCodigoFornecedores = [1, 2, 3]
 
-        if nomeProduto and valorProduto and qntEstoque:
+        if nomeProduto and valorProduto and qntEstoque and listarFornecedores:
             p = Produto(nomeProduto=nomeProduto,
                         valorProduto=valorProduto, qntEstoque=qntEstoque)
-            db.session.add(p)
-            db.session.commit()
 
+            for codFornecedor in listaCodigoFornecedores:
+                fornecedor = Fornecedor.query.filter_by(
+                    _codFornecedor=codFornecedor).first()
+                p.fornecido.append(fornecedor)
+
+        db.session.add(p)
+        db.session.commit()
         return redirect(url_for('produtoPage'))
 
 # ROTA DA PAGINA DE LISTA
@@ -332,7 +349,17 @@ def atualizarFornecedores(codFornecedor):
     return render_template('fornecedorView/atualizarFornecedores.html', fornecedor=fornecedor)
 
 
+# ----------------------------------------------------------------TABELA DE RELACIONAMENTO venda_produto--------------------------------------------------------------------
+venda_produto = db.Table('venda_produto',
+                         db.Column('codVenda', db.Integer, db.ForeignKey(
+                             'venda._codVenda'), primary_key=True),
+                         db.Column('codProduto', db.Integer, db.ForeignKey(
+                             'produto._codProduto'), primary_key=True),
+                         db.Column('qntProduto', db.Integer)
+                         )
 # ----------------------------------------------------------------CLASSE VENDAS--------------------------------------------------------------------
+
+
 class Venda(db.Model):
     # CRIAÇÃO DA TABELA DO BANCO
     __tablename = 'venda'
@@ -340,7 +367,8 @@ class Venda(db.Model):
     qtd_produto = db.Column(db.Integer)
     valor_total = db.Column(db.Float)
     id_vendedor = db.Column(db.Integer, db.ForeignKey('usuario.id_Usuario'))
-
+    vender = db.relationship('Produto', secondary=venda_produto, lazy='subquery',
+                             backref=db.backref('vender', lazy=True))
     # id do usuario
 
     # CONSTRUTOR
@@ -410,12 +438,12 @@ def excluirVendas(codVenda):
 # @app.route('/vendas/atualizar/<int:codVenda>', methods=['GET', 'POST'])
 # def atualizarVendas(codVenda):
 #     venda = Venda.query.filter_by(_codVenda=codVenda).first()
- 
+
 #     if request.method == 'POST':
 #         valor_totalV = request.form['valor_total']
 #         qtd_produtoV = request.form['qtd_produto']
 #         # id do usuario
-# 
+#
 #        if valor_totalV and qtd_produtoV:  # and id do usuario
 #            venda.valor_total = valor_totalV
 #            venda.qtd_produto = qtd_produtoV
@@ -438,4 +466,5 @@ if chave is None:
 
 if __name__ == '__main__':
     app.secret_key = 'adsoadsojidasjiodasoiasf809qw123123'
+    app.config['TRAP_BAD_REQUEST_ERRORS'] = True
     app.run(debug=True)
